@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CoolShift – IIIT-Delhi Facility Dashboard</title>
+<style>
+:root{--bg:#fff;--card:#fff;--ink:#101418;--mute:#6b7380;--line:#e6e9ee;--std:#f3f5f8;--b:#3b78d8;--bs:#e8f0fc;--g:#1f9d55;--gs:#e5f5ec;--a:#b8700b;--as:#fcf0d8;--r:#c0392b;--rs:#fbe7e4;--k:#101418;--gr:#b9c0ca;--sol:#d3f0df;--pk:#f8d9d4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f1318;--card:#171c23;--ink:#e8ecf1;--mute:#98a2b0;--line:#2a313b;--std:#1d232c;--b:#6a9cf0;--bs:#1b2a44;--g:#4cc27f;--gs:#173626;--a:#e8a23c;--as:#3a2c12;--r:#f0786b;--rs:#3d1d1a;--k:#e8ecf1;--gr:#566170;--sol:#1c4630;--pk:#4a2420}}
+:root[data-theme=dark]{--bg:#0f1318;--card:#171c23;--ink:#e8ecf1;--mute:#98a2b0;--line:#2a313b;--std:#1d232c;--b:#6a9cf0;--bs:#1b2a44;--g:#4cc27f;--gs:#173626;--a:#e8a23c;--as:#3a2c12;--r:#f0786b;--rs:#3d1d1a;--k:#e8ecf1;--gr:#566170;--sol:#1c4630;--pk:#4a2420}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:calc(64px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,"Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+#pg{position:fixed;top:0;left:0;height:3px;width:0;background:var(--b);z-index:9}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:calc(10px + env(safe-area-inset-top,0px)) 24px 10px;gap:10px;flex-wrap:wrap}
+.bc{color:var(--mute);font-size:13px}.bc b{color:var(--ink)}.tr{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{background:var(--as);color:var(--a);font-weight:700;font-size:12px;padding:6px 14px;border-radius:99px}
+.app{display:grid;grid-template-columns:210px 1fr}
+nav{position:sticky;top:56px;align-self:start;padding:18px 14px;display:flex;flex-direction:column;gap:3px;height:calc(100vh - 56px);border-right:1px solid var(--line);overflow:auto}
+nav b{font-size:17px;padding:0 10px 2px}nav .s{color:var(--mute);font-size:12px;padding:0 10px 10px}
+nav a{color:var(--mute);text-decoration:none;font-weight:600;padding:8px 10px;border-radius:8px;font-size:14px}
+nav a:hover{background:var(--std)}nav a.on{background:var(--bs);color:var(--b)}
+nav .bl{color:var(--mute);font-size:12px;padding:10px 10px 0;border-top:1px solid var(--line);margin-top:10px}nav .bl b{font-size:12px;color:var(--ink);padding:0}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--b);outline-offset:2px}
+main{padding:32px 28px 60px;max-width:980px;width:100%}section{margin-bottom:56px}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.08;letter-spacing:-.02em;margin:14px 0 12px;max-width:17ch}
+h2{font-size:24px;margin:0 0 4px;letter-spacing:-.01em}h3{font-size:15px;margin:0 0 6px}
+.lead{font-size:17px;color:var(--mute);max-width:58ch}.mute{color:var(--mute);font-size:13px}p{margin:0}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--std);color:var(--mute);white-space:nowrap}
+.ok{background:var(--gs);color:var(--g)}.warn{background:var(--as);color:var(--a)}.bad{background:var(--rs);color:var(--r)}.blue{background:var(--bs);color:var(--b)}
+.grid{display:grid;gap:14px;margin-top:16px}.k4{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}.k2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.kv{font-size:28px;font-weight:700;margin:2px 0;letter-spacing:-.01em}
+.row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}
+.ctl{display:grid;grid-template-columns:210px 1fr 56px;gap:10px;align-items:center;margin:6px 0;font-size:14px}
+.strip{display:grid;grid-template-columns:repeat(24,1fr);gap:2px;margin:3px 0 10px}.strip i{height:22px;border-radius:3px;background:var(--std)}
+.strip i.on{background:var(--k)}.strip i.sol{background:var(--sol)}.strip i.pk{background:var(--pk)}
+.tick{display:grid;grid-template-columns:repeat(8,1fr);font-size:11px;color:var(--mute)}
+table{width:100%;border-collapse:collapse;font-size:14px}th{text-align:left;color:var(--mute);font-weight:600;font-size:12px;padding:10px;background:var(--std)}td{padding:12px 10px;border-bottom:1px solid var(--line)}.wrap{overflow-x:auto}
+.note{background:var(--as);color:var(--a);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;margin-top:14px}
+.btn{all:unset;cursor:pointer;background:var(--b);color:#fff;font-weight:700;padding:8px 16px;border-radius:8px;font-size:14px}
+.btn.o{background:var(--std);color:var(--ink)}.btn.on{background:var(--r);color:#fff}.btn[disabled]{opacity:.5;cursor:not-allowed}
+svg{width:100%;height:auto;display:block}.lg{display:flex;gap:14px;font-size:12px;color:var(--mute);flex-wrap:wrap}
+.wk{display:flex;gap:8px;align-items:flex-end;height:150px;margin-top:10px}.wk div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:11px;color:var(--mute)}
+.wk span{display:flex;gap:3px;align-items:flex-end;height:120px;width:100%;justify-content:center}.wk i{width:38%;border-radius:3px 3px 0 0;display:block}
+details{margin-top:12px}summary{cursor:pointer;font-weight:700;color:var(--b)}
+.fl{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:10px}.fl div{background:var(--std);border-radius:10px;padding:10px;font-size:13px}
+.tip{position:absolute;top:0;pointer-events:none;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.14);transform:translateX(-50%);display:none;white-space:nowrap;z-index:3;line-height:1.5}.lgb{all:unset;cursor:pointer;padding:2px 8px;border-radius:99px;border:1px solid var(--line);font-size:12px;color:var(--ink)}.lgb[aria-pressed=false]{opacity:.45;text-decoration:line-through}.wk i{transition:opacity .15s}.wk i:hover{opacity:.7}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}footer{color:var(--mute);font-size:12px;text-align:center}
+@media(max-width:760px){.app{grid-template-columns:1fr}nav{position:sticky;top:56px;flex-direction:row;overflow-x:auto;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:8px;background:var(--bg);z-index:4}nav b,nav .s,nav .bl{display:none}nav a{white-space:nowrap}main{padding:24px 16px}.ctl{grid-template-columns:1fr 56px}.ctl label{grid-column:1/-1}}
+</style></head><body><div id="pg"></div>
+<div class="top"><div class="bc">CoolShift / IIIT-Delhi Academic / <b>Facility Dashboard</b></div><div class="tr"><span class="pill" id="clk"></span><span class="chip" id="mode">Historical replay · simulation only</span><button class="btn o" id="cp">Copy link</button><button class="btn" id="ov2" aria-pressed="false">Operator override</button></div></div>
+<div class="app"><nav id="nav"><b>CoolShift</b><span class="s">IIIT-Delhi · Academic Building</span></nav>
+<main>
+<section id="ov"><span class="pill warn">Simulation only</span> <span class="pill warn">Comfort data unavailable</span> <span class="pill" id="dt"></span>
+<h1>Cooling that follows occupancy, not the clock.</h1>
+<p class="lead">CoolShift times AHU operation to forecast occupancy, comfort limits and time-of-day tariffs, protecting the always-on server and lift load and shifting only the flexible share of cooling.</p>
+<p class="mute" style="margin-top:12px">Lokmanya Tilak College of Engineering · Team DecodeUnity · IIIT-Delhi Academic Building · 5 floors · 61,308 ft²</p>
+<div class="grid k4" id="k1"></div></section>
+
+<section id="dp"><h2>Today's cooling plan</h2><p class="mute">Baseline schedule vs CoolShift dispatch for a weekday replay. Gray runs the clock; blue follows occupancy.</p>
+<div class="grid k2" style="grid-template-columns:2fr 1fr"><div class="card"><div class="row" style="border:0;padding:0"><h3>Hourly demand · kW</h3><span class="pill blue" id="lev">3 levers active</span></div><p class="mute" id="sub"></p><div id="hc"></div>
+</div>
+<div class="card"><h3>Three levers</h3><div class="row"><span>Delayed start</span><span class="pill blue">06–09h</span></div><div class="row"><span>Solar-window pre-cool</span><span class="pill ok">09–15h</span></div><div class="row"><span>Evening ease-off</span><span class="pill blue">17h+</span></div><p class="mute" style="margin-top:8px">Servers and lifts stay on. The CoolShift curve is a scenario scaled to the modeled 4.1% weekly difference, not a measurement.</p></div></div>
+<div class="card" style="margin-top:14px"><h3>Schedule simulator</h3><div id="ctl"></div><div id="sim" style="margin-top:8px"></div></div>
+<div class="note" id="nt">Run-hours are a scheduling output, not kWh. Timer hours are assumptions.</div></section>
+
+<section id="ba"><h2>Baseline vs actual</h2><p class="mute">Modeled load against the weather- and occupancy-normalised baseline. The baseline must pass its screen before any comparison counts.</p>
+<div class="grid k2"><div class="card"><h3>This week · mean kW (simulated)</h3><div class="wk" id="wk"></div><div class="lg"><span><b style="color:var(--gr)">■</b> Baseline</span><span><b style="color:var(--k)">■</b> CoolShift (modeled)</span><span>Outlined = today · faded = upcoming</span></div></div>
+<div class="card"><h3>Savings summary</h3><div id="sv"></div></div></div>
+<div class="grid k2"><div class="card"><h3>Baseline validation, held-out 2017</h3><p class="mute">CV(RMSE), typical prediction error</p><div id="b1"></div><p class="mute">|NMBE|, average model bias</p><div id="b2"></div><p class="mute">Gray = screen limit, red = current model. Both must pass.</p></div>
+<div class="card"><h3>Model readiness</h3><div class="row"><span>Status</span><span class="pill bad">Hold</span></div><div class="row"><span>CV(RMSE)</span><b style="color:var(--r)">43.4% / ≤30%</b></div><div class="row"><span>|NMBE|</span><b style="color:var(--r)">12.4% / ≤10%</b></div><div class="row"><span>Sensitivity, 54 combinations</span><b>0–5.6%</b></div><p style="margin-top:10px"><b>Next best action:</b> improve the baseline before enabling an HVAC recommendation.</p></div></div></section>
+
+<section id="cf"><h2>Comfort &amp; air quality</h2><p class="mute">Simulated thermal response against the 26 ± 1 °C band. No room sensors exist yet; a pilot replaces this with measurements.</p>
+<div class="card" style="margin-top:14px"><div class="row" style="border:0;padding:0"><h3>Zone temperature · simulated</h3><span class="pill warn">Not measured</span></div><div id="zc"></div><p class="mute">Dashed lines mark the comfort band.</p></div>
+<div class="grid k4" id="k3"></div>
+<div class="grid k4"><div class="card"><h3>Minimum ventilation</h3><p class="mute">Stays on in every schedule; outdoor-air limits in peak heat.</p></div><div class="card"><h3>Occupant override</h3><p class="mute">Manual override always wins over the schedule.</p></div><div class="card"><h3>Wi-Fi proxy</h3><p class="mute">Calibrated against room CO₂ in the pilot; calendar as fallback.</p></div></div></section>
+
+<section id="ct"><h2>Cost &amp; tariff</h2><p class="mute">MSEDCL time-of-day structure applied to the modeled load. Slots and rate are placeholders until the approved tariff is in hand.</p>
+<div class="card" style="margin-top:14px"><div class="ctl" style="grid-template-columns:260px 100px 1fr"><label for="rt">Assumed average rate (₹/kWh)</label><input id="rt" type="number" min="1" max="30" step="0.5" value="8" style="padding:6px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)"><span class="mute">Placeholder, not a quoted tariff.</span></div></div>
+<div class="grid k4" id="k4"></div>
+<div class="card wrap" style="margin-top:14px"><h3>Time-of-day structure · commercial</h3><table><tr><th>Slot</th><th>Window</th><th>Multiplier</th><th>Status</th></tr><tr><td><b>Solar window</b></td><td>09:00 – 15:00</td><td>× 0.85</td><td><span class="pill ok">Rebate</span></td></tr><tr><td><b>Standard</b></td><td>All other hours</td><td>× 1.00</td><td><span class="pill">Base</span></td></tr><tr><td><b>Evening peak</b></td><td>18:00 – 22:00</td><td>× 1.25</td><td><span class="pill bad">Surcharge</span></td></tr></table></div>
+<p class="mute" style="margin-top:10px">Payback = installed cost ÷ annual bill saving. No payback claim before vendor quotes, approved tariff and pilot evidence.</p></section>
+
+<section id="ra"><h2>Recommended actions</h2><p class="mute">Auto mode: each action runs on the real clock. Hand any zone back to the clock with Operator override. AHU zoning is a proposal to confirm against the building plans.</p>
+<div class="row" style="border:0"><span class="pill ok" id="auto"></span><span class="mute" id="lu"></span></div>
+<div class="card wrap"><table><tr><th>AHU / zone</th><th>Recommendation</th><th>Window</th><th>Occupancy</th><th>Status</th></tr><tbody id="tb"></tbody></table>
+<p class="mute" style="padding:12px 4px 0">Auto-dispatch follows the clock inside limits the operator sets once: 26 ± 1 °C comfort band, minimum ventilation on, base load never shifted, occupant override wins. If the link drops, the gateway runs its local fallback schedule.</p>
+<details><summary>System topology</summary><div class="fl"><div><b>1 Sense</b><br>Mains, Wi-Fi, weather, calendar<br><span class="pill">Data in hand</span></div><div><b>2 Gather</b><br>Edge gateway, local fallback<br><span class="pill">Proposed</span></div><div><b>3 Stream</b><br>MQTT, buffered<br><span class="pill">Proposed</span></div><div><b>4 Analyse</b><br>Forecast and normalise<br><span class="pill ok">Simulated</span></div><div><b>5 Schedule</b><br>Comfort-bound, ToD slots<br><span class="pill ok">Simulated</span></div><div><b>6 Act</b><br>BMS / relay, DISCOM<br><span class="pill warn">Pilot+</span></div></div></details></div></section>
+<section id="bm"><h2>Fits on your BMS</h2><p class="mute">CoolShift is an optimization layer over the plant you already run. It does not replace controllers, and the building management system stays the system of record.</p>
+<div class="chips"><button class="btn" id="pa">Site with a BMS</button><button class="btn o" id="pb">Legacy plant, no BMS</button></div><div id="bd" style="margin-top:12px"></div>
+<div class="grid k2"><div class="card wrap"><h3>Open interfaces</h3><table><tr><th>Need</th><th>Open interface</th></tr><tr><td>Read plant data (kW, AHU status)</td><td>Modbus TCP / RTU, BACnet/IP</td></tr><tr><td>Write schedule or setpoint offset</td><td>BACnet, inside BMS limits</td></tr><tr><td>Secure link across networks</td><td>BACnet/SC (TLS 1.3)</td></tr><tr><td>System-to-system data</td><td>Web services (REST, SOAP), OPC UA</td></tr><tr><td>IoT room sensors (CO₂, temperature)</td><td>MQTT</td></tr></table><p class="mute" style="margin-top:8px">EcoStruxure Building Operation documents native support for these standards. Exact point mapping is site-specific, and nothing here has been tested on site.</p></div>
+<div class="card"><h3>Why a retrofit layer</h3><p class="mute">BEE's ECSBC 2024 (section 3.2.5) applies to new HVAC equipment; existing systems are exempt. Buildings use about 33% of India's electricity (Challenge 02 brief), so the installed base needs an add-on route to savings.</p><p class="mute" style="margin-top:8px">First reference: IIIT-Delhi Academic Building, with I-BLEND 2014–2017 mains, Wi-Fi and calendar data. To transfer, recalibrate weather (Navi Mumbai next), occupancy, AHU mapping, comfort rules and tariff.</p></div></div>
+<div class="card" style="margin-top:14px"><h3>Path to a measured pilot</h3><div class="chips"><span class="pill blue">W1–W2 Baseline gate</span><span class="pill warn">Gate 1: baseline passes</span><span class="pill">W2–W4 Constrained model</span><span class="pill">W4–W6 Design artefacts</span><span class="pill">W5–W7 Cost + transfer</span><span class="pill warn">Gate 2: quotes + approved tariff</span><span class="pill">W7–W9 Pilot + scale</span></div></div></section>
+<footer>CoolShift · Design artefact for the IIIT-Delhi Academic Building. Values are historical averages, model diagnostics or simulations, never live telemetry.</footer>
+</main></div>
+<script>
+const $=id=>document.getElementById(id),H3=[0,3,6,9,12,15,18,21],P=[47,45,41,88,99,93,61,52],O=[0,0,0,0,90,100,15,0],SC=47.8/99;
+let S={thr:20,lead:1,ts:6,te:21},ov=0,rate=8;
+const IST=()=>{const d=new Date(new Date().toLocaleString("en-US",{timeZone:"Asia/Kolkata"}));return{d,h:d.getHours()+d.getMinutes()/60,dow:(d.getDay()+6)%7}},at=(A,h)=>{const i=Math.floor(h)%24,f=h-Math.floor(h);return A[i]+(A[(i+1)%24]-A[i])*f};
+const it=(A,h)=>{h=((h%24)+24)%24;const i=Math.floor(h/3),f=(h%3)/3;return A[i]+(A[(i+1)%8]-A[i])*f},occ=h=>it(O,h),pk=h=>it(P,h)*SC;
+const tar=h=>h>=9&&h<15?"sol":h>=18&&h<22?"pk":"";
+const BASE=[...Array(24)].map((_,h)=>pk(h)),FLOOR=pk(6),sum=a=>a.reduce((x,y)=>x+y,0);
+const B=[31.4,32.1,33,31,31.6,20.5,19.2],WD=sum(B.slice(0,5)),WE=sum(B.slice(5)),dwk=(.041*sum(B)-.01*WE)/WD;
+const CD=B.map((v,i)=>v*(1-(i<5?dwk:.01)));
+let raw=BASE.map((v,h)=>{const f=v-FLOOR;return h>=6&&h<9?-.45*f:h>=17&&h<22?-.35*f:h>=9&&h<15?1:0});
+const add=sum(raw.filter(v=>v>0)),red=sum(raw.filter(v=>v<0)),k=(-dwk*sum(BASE)-add)/red;
+const CS=BASE.map((v,h)=>v+(raw[h]<0?raw[h]*k:raw[h]));
+const cur=()=>ov?BASE:CS;
+const ZT=[26.6,26.2,25.7,25.5,25.8,26.1,26.4,26.9,27.2,26.3,26.0],CO=[520,640,760,880,940,980,900,860,820,780,700];
+function lines(L,ymin,ymax,xs,xl,band,shade){const X=i=>46+i*(560/(xs-1)),Y=v=>176-(v-ymin)/(ymax-ymin)*160;let g="";
+if(shade)for(let h=0;h<24;h++){const c=tar(h);if(c)g+=`<rect x="${X(h)-12}" y="10" width="${560/23}" height="166" fill="var(${c=="sol"?"--sol":"--pk"})" opacity=".5"/>`}
+for(let i=0;i<=4;i++){const v=ymin+(ymax-ymin)*i/4;g+=`<line x1="46" x2="606" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="4" y="${Y(v)+4}" font-size="11" fill="var(--mute)">${Math.round(v*10)/10}</text>`}
+if(band)band.forEach(v=>g+=`<line x1="46" x2="606" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--g)" stroke-dasharray="5 4"/>`);
+g+=xl.map(([i,t])=>`<text x="${X(i)}" y="196" font-size="11" text-anchor="middle" fill="var(--mute)">${t}</text>`).join("");
+L.forEach(([d,c])=>g+=`<polyline fill="none" stroke="${c}" stroke-width="3" points="${d.map((v,i)=>X(i)+","+Y(v)).join(" ")}"/>`);return `<svg viewBox="0 0 620 204" role="img">${g}</svg>`}
+const bar=(v,m,c)=>`<div style="height:18px;width:${v/m*100}%;background:${c};border-radius:5px;margin:4px 0 10px;color:#fff;font-size:11px;text-align:right;padding-right:6px;line-height:18px">${v}</div>`;
+const kc=(l,v,s,c)=>`<div class="card"><p class="mute">${l}</p><div class="kv" ${c?`style="color:var(--${c})"`:""}>${v}</div><p class="mute">${s}</p></div>`;
+const inb=ZT.filter(v=>v>=25&&v<=27).length,pct=Math.round(inb/ZT.length*1000)/10,co=Math.round(sum(CO)/CO.length);
+const CF={},HS={};
+function tg(id,k){HS[id]=HS[id]||new Set();HS[id].has(k)?HS[id].delete(k):HS[id].add(k);mk(id,CF[id])}
+function mk(id,c){CF[id]=c;const hs=HS[id]=HS[id]||new Set(),N=c.series[0].d.length,X=i=>46+i*560/(N-1),Y=v=>176-(v-c.ymin)/(c.ymax-c.ymin)*160;let g="";
+if(c.shade)for(let h=0;h<24;h++){const t=tar(h);if(t)g+=`<rect x="${X(h)-12}" y="10" width="24.4" height="166" fill="var(${t=="sol"?"--sol":"--pk"})" opacity=".5"/>`}
+for(let i=0;i<=4;i++){const v=c.ymin+(c.ymax-c.ymin)*i/4;g+=`<line x1="46" x2="606" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="4" y="${Y(v)+4}" font-size="11" fill="var(--mute)">${Math.round(v*10)/10}</text>`}
+(c.band||[]).forEach(v=>g+=`<line x1="46" x2="606" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--g)" stroke-dasharray="5 4"/>`);
+g+=c.xl.map(([i,t])=>`<text x="${X(i)}" y="196" font-size="11" text-anchor="middle" fill="var(--mute)">${t}</text>`).join("");
+c.series.forEach((s,k)=>{if(!hs.has(k))g+=`<polyline fill="none" stroke="${s.c}" stroke-width="3" points="${s.d.map((v,i)=>X(i)+","+Y(v)).join(" ")}"/>`});
+if(c.now>=0&&c.now<=N-1)g+=`<line x1="${X(c.now)}" x2="${X(c.now)}" y1="10" y2="176" stroke="var(--r)" stroke-dasharray="3 3"/><text x="${X(c.now)+4}" y="22" font-size="11" fill="var(--r)">Now</text>`;
+g+=`<line id="${id}x" y1="10" y2="176" stroke="var(--ink)" opacity="0"/>`+c.series.map((s,k)=>`<circle id="${id}c${k}" r="5" fill="${s.c}" stroke="var(--card)" stroke-width="2" opacity="0"/>`).join("")+`<rect id="${id}r" x="46" y="0" width="560" height="204" fill="transparent" style="touch-action:pan-y;cursor:crosshair"/>`;
+$(id).innerHTML=`<div style="position:relative"><svg viewBox="0 0 620 204" role="img" aria-label="${c.al||"Chart"}">${g}</svg><div class="tip" id="${id}t"></div></div><div class="lg">${c.series.map((s,k)=>`<button class="lgb" aria-pressed="${!hs.has(k)}" onclick="tg('${id}',${k})"><b style="color:${s.c}">●</b> ${s.n}</button>`).join("")}<span>${c.note||""}</span></div>`;
+const r=$(id+"r"),mv=e=>{const b=r.getBoundingClientRect(),x=(e.clientX-b.left)/b.width*560;const i=Math.max(0,Math.min(N-1,Math.round(x*(N-1)/560))),l=$(id+"x");l.setAttribute("x1",X(i));l.setAttribute("x2",X(i));l.setAttribute("opacity",.4);c.series.forEach((s,k)=>{const o=$(id+"c"+k);o.setAttribute("cx",X(i));o.setAttribute("cy",Y(s.d[i]));o.setAttribute("opacity",hs.has(k)?0:1)});const t=$(id+"t");t.innerHTML=c.tip(i);t.style.display="block";t.style.left=Math.max(14,Math.min(86,X(i)/620*100))+"%"};
+r.onpointermove=mv;r.onpointerdown=mv;r.onpointerleave=()=>{$(id+"x").setAttribute("opacity",0);c.series.forEach((s,k)=>$(id+"c"+k).setAttribute("opacity",0));$(id+"t").style.display="none"}}
+function render(){const T=IST(),nh=T.h,c=cur(),eS=sum(BASE)-sum(c),mx=a=>Math.max(...a.filter((_,i)=>i>=18&&i<22)),epc=mx(BASE)-mx(c),sol=sum(c.filter((_,h)=>h>=9&&h<15))-sum(BASE.filter((_,h)=>h>=9&&h<15));
+$("dt").textContent=T.d.toLocaleDateString("en-IN",{weekday:"long",day:"numeric",month:"short",year:"numeric"})+(T.dow>4?" · weekend: weekday profile replayed":" · weekday replay");
+$("k1").innerHTML=kc("Demand now",at(c,nh).toFixed(1)+" kW",`${(at(c,nh)-at(BASE,nh)>=0?"+":"")+(at(c,nh)-at(BASE,nh)).toFixed(1)} kW vs baseline now · baseline peak ${Math.max(...BASE).toFixed(1)} kW`,"b")+kc("Occupancy now",Math.round(it(O,nh)*2.96),"Wi-Fi proxy devices · 50 offset")+kc("Flexible cooling share","~"+Math.round((1-FLOOR/Math.max(...BASE))*100)+"%","Rest is protected base load")+kc("Comfort in band",pct+"%","Simulated · not measured",pct<95?"a":"g");
+$("sub").textContent="Academic Block mains · weekday replay · pre-cool 09:00 from solar window, ease-off from 17:00"+(ov?" · operator override: clock schedule":"");
+$("lev").textContent=ov?"Handed back to clock":"3 levers active";$("lev").className="pill "+(ov?"warn":"blue");
+mk("hc",{al:"Hourly demand, baseline versus CoolShift",series:[{n:"Baseline",d:BASE,c:"var(--gr)"},{n:"CoolShift (simulated)",d:c,c:"var(--b)"}],ymin:0,ymax:60,xl:[[0,"00"],[4,"04"],[8,"08"],[12,"12"],[16,"16"],[20,"20"],[23,"23"]],shade:1,now:nh,note:"Hover or tap for detail · shaded: solar window / evening peak",tip:i=>{const d=c[i]-BASE[i];return `<b>${String(i).padStart(2,"0")}:00</b> · ${({sol:"Solar window",pk:"Evening peak","":"Standard"})[tar(i)]}<br>Baseline ${BASE[i].toFixed(1)} kW<br>CoolShift ${c[i].toFixed(1)} kW (${d>=0?"+":""}${d.toFixed(1)})<br>Occupancy ~${Math.round(occ(i))}%`}});
+const mon=new Date(T.d);mon.setDate(T.d.getDate()-T.dow);$("wk").innerHTML=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((d,i)=>{const dd=new Date(mon);dd.setDate(mon.getDate()+i);const cs=ov?B[i]:CD[i];return `<div title="${d}: baseline ${B[i].toFixed(1)} kW, CoolShift ${cs.toFixed(1)} kW (${((cs/B[i]-1)*100).toFixed(1)}%)" style="opacity:${i>T.dow?.55:1};${i==T.dow?"outline:2px solid var(--b);outline-offset:3px;border-radius:6px":""}"><span><i style="height:${B[i]*2.4}px;background:var(--gr)"></i><i style="height:${cs*2.4}px;background:var(--k)"></i></span>${d} ${dd.getDate()}</div>`}).join("");
+const ps=ov?0:4.1,kw=(sum(B)-sum(CD))*24*(ov?0:1);
+$("sv").innerHTML=`<div class="row"><span>Energy vs baseline (modeled)</span><b style="color:var(--a)">${ov?"0.0":"−4.1"}%</b></div><div class="row"><span>Modeled range</span><b>0 – 5.6%</b></div><div class="row"><span>Evening-peak demand cut</span><b>${ov?"0.0":"−"+epc.toFixed(1)} kW</b></div><div class="row"><span>Energy per week (modeled)</span><b>${Math.round(kw)} kWh</b></div><div class="row"><span>CO₂ avoided (× 0.71 kg/kWh)</span><b>${Math.round(kw*.71)} kg</b></div><div class="row"><span>Eligible savings claim</span><span class="pill bad">Not yet · baseline fails</span></div>`;
+$("b1").innerHTML=bar(30,50,"#8b95a3")+bar(43.4,50,"var(--r)");$("b2").innerHTML=bar(10,50,"#8b95a3")+bar(12.4,50,"var(--r)");
+mk("zc",{al:"Simulated zone temperature",series:[{n:"Zone temperature (simulated)",d:ZT,c:"var(--b)"}],ymin:24,ymax:29,xl:[[0,"08"],[2,"10"],[4,"12"],[6,"14"],[8,"16"],[10,"18"]],band:[25,27],now:nh-8,tip:i=>`<b>${String(8+i).padStart(2,"0")}:00</b><br>${ZT[i]} °C · ${ZT[i]>=25&&ZT[i]<=27?"in band":"above band"}<br>CO₂ ${CO[i]} ppm (simulated)`});
+$("k3").innerHTML=kc("Hours in band",pct+"%","Simulated · "+inb+" of "+ZT.length+" hours",pct<95?"a":"g")+kc("CO₂ average",co+" ppm","Simulated · limit 1,000 ppm")+kc("Active alerts",ZT.length-inb,"Simulated · 1 hour above band"+(ZT.length-inb?"":""),ZT.length-inb?"a":"g");
+const cost=sum(BASE)*rate,sv=eS*rate;
+$("k4").innerHTML=kc("Cost per weekday",`₹${Math.round(cost).toLocaleString("en-IN")}`,"Baseline energy × assumed rate")+kc("Saved vs baseline",`₹${Math.round(sv).toLocaleString("en-IN")}`,`${(eS/sum(BASE)*100).toFixed(1)}% · modeled, ₹${Math.round(sv*22).toLocaleString("en-IN")} over 22 weekdays`,"a")+kc("Solar-window shift",sol.toFixed(1)+" kWh","Pre-cooled 09:00 – 15:00")+kc("Evening-peak cut",(ov?0:epc).toFixed(1)+" kW","Out of the 18:00 – 22:00 surcharge");
+$("mode").textContent=ov?"Operator override · clock schedule":"Historical replay · simulation only";$("ov2").className="btn"+(ov?" on":"");$("ov2").setAttribute("aria-pressed",!!ov);$("ov2").textContent=ov?"Release override":"Operator override";
+const hhmm=x=>String(Math.floor(x)).padStart(2,"0")+":"+String(Math.round((x%1)*60)).padStart(2,"0"),dur=h=>{const m=Math.round(h*60);return (m>=60?Math.floor(m/60)+" h ":"")+(m%60)+" min"};
+const R=[["Floors 1–2 · AHU-1","Delayed start 08:40",8+40/60,17.5,"214 peak"],["Floors 3–4 · AHU-2","Setpoint ease +1.0 °C",13,15,"228 – 281"],["Floor 5 + labs · AHU-3","Solar-window pre-cool",10,12,"268 – 292"]];
+const stt=r=>ov?["warn","Handed to clock"]:nh<r[2]?["blue","Starts in "+dur(r[2]-nh)]:nh<r[3]?["ok","Active now · "+dur(r[3]-nh)+" left"]:["","Completed today"];
+$("tb").innerHTML=R.map(r=>{const t=stt(r);return `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${hhmm(r[2])} – ${hhmm(r[3])}</td><td>${r[4]}</td><td><span class="pill ${t[0]}">${t[1]} · sim</span></td></tr>`}).join("")+`<tr><td><b>Servers + lifts · base</b></td><td>Always on, never shifted</td><td>24 × 7</td><td>—</td><td><span class="pill ok">Protected</span></td></tr>`;
+$("auto").textContent=ov?"Auto-dispatch paused · operator override":"Auto-dispatch on · follows the clock · simulated, no commands sent";$("auto").className="pill "+(ov?"warn":"ok");$("lu").textContent="Updated "+T.d.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"})+" IST"}
+function sim(){const on=[],fx=[];for(let h=0;h<24;h++){fx.push(h>=S.ts&&h<S.te);on.push(ov?fx[h]:occ(h)>=S.thr||occ(h+S.lead)>=S.thr)}
+$("vthr").textContent=S.thr+"%";$("vlead").textContent=S.lead+" h";$("vts").textContent=S.ts+":00";$("vte").textContent=S.te+":00";
+const n=a=>a.filter(Boolean).length,w=(a,c)=>a.filter((v,h)=>v&&tar(h)===c).length,st=(l,a)=>`<p class="mute">${l}</p><div class="strip">${a.map((v,h)=>`<i class="${v?"on":""}" title="${h}:00"></i>`).join("")}</div>`;
+$("sim").innerHTML=`<p class="mute">Tariff slot (placeholder)</p><div class="strip">${[...Array(24)].map((_,h)=>`<i class="${tar(h)}"></i>`).join("")}</div><p class="mute">Forecast occupancy (Wi-Fi proxy)</p><div class="strip">${[...Array(24)].map((_,h)=>`<i style="background:var(--b);opacity:${.1+occ(h)/112}" title="${h}:00 ~${Math.round(occ(h))}%"></i>`).join("")}</div>${st("Fixed timer (assumed)",fx)}${st("CoolShift schedule (simulated)",on)}<div class="tick">${H3.map(h=>`<span>${String(h).padStart(2,"0")}:00</span>`).join("")}</div><div class="row" style="margin-top:10px"><span>AHU run-hours</span><b>${n(fx)} → ${n(on)} h</b></div><div class="row"><span>Hours in evening peak</span><b>${w(fx,"pk")} → ${w(on,"pk")} h</b></div><div class="row"><span>Hours in solar window</span><b>${w(fx,"sol")} → ${w(on,"sol")} h</b></div>`}
+const sl=(k,l,a,b)=>`<div class="ctl"><label for="${k}">${l}</label><input id="${k}" type="range" min="${a}" max="${b}" value="${S[k]}" oninput="S.${k}=+this.value;sim()"><b id="v${k}"></b></div>`;
+$("ctl").innerHTML=sl("thr","Occupancy needed to run AHUs",5,60)+sl("lead","Pre-cool lead (hours)",0,3)+sl("ts","Assumed timer start",0,12)+sl("te","Assumed timer end",12,24);
+$("ov2").onclick=()=>{ov=ov?0:1;render();sim()};$("rt").oninput=e=>{rate=+e.target.value||0;render()};
+$("cp").onclick=async()=>{try{await navigator.clipboard.writeText(location.href);$("cp").textContent="Link copied"}catch(e){$("cp").textContent="Copy not allowed"}setTimeout(()=>$("cp").textContent="Copy link",1800)};
+const L=[["ov","Today's overview"],["dp","Today's plan"],["ba","Baseline vs actual"],["cf","Comfort & air quality"],["ct","Cost & tariff"],["ra","Recommended actions"],["bm","BMS integration"]];
+$("nav").insertAdjacentHTML("beforeend",L.map(([i,t])=>`<a href="#${i}" data-i="${i}">${t}</a>`).join("")+`<div class="bl"><b>Building</b><br>61,308 ft² · 5 floors<br>22,785 ft² conditioned<br>Central AHUs · MSEDCL ToD</div><div class="bl"><b>System</b><br>Simulation only<br>No gateway · no live sensors</div>`);
+function spy(){const d=document.documentElement;$("pg").style.width=(scrollY/(d.scrollHeight-innerHeight||1)*100)+"%";let c=L[0][0];L.forEach(([i])=>{if($(i).getBoundingClientRect().top<innerHeight*.35)c=i});document.querySelectorAll("nav a").forEach(x=>x.classList.toggle("on",x.dataset.i===c))}
+const BM={a:[["Field plant","AHUs, VFDs, power meters and room sensors.","Unchanged"],["Existing BMS","Controllers and a building management server, for example Schneider Electric's EcoStruxure Building Operation (Enterprise Server, Automation Server or Edge Server). Keeps alarms, interlocks, minimum ventilation and local schedules.","Stays the system of record"],["CoolShift layer","Reads trends, forecasts occupancy, proposes schedules and setpoint offsets, and writes only inside the comfort band. Falls back to the BMS schedule if the link drops.","New, additive"]],b:[["Field plant","Central AHUs and the mains meter. No BMS today.","Unchanged"],["Retrofit gateway","CT clamps plus a Modbus / BACnet gateway. Buffers data and holds a local fallback schedule.","Low-cost, repairable"],["CoolShift layer","The same forecasting, baseline and scheduling method, running on the gateway data.","New, additive"]]};
+function bms(p){$("bd").innerHTML=`<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:0">`+BM[p].map((x,i)=>`<div class="card" style="border-top:4px solid var(--${i==2?"b":"gr"})"><span class="pill ${i==2?"blue":""}">${x[2]}</span><h3 style="margin-top:8px">${x[0]}</h3><p class="mute">${x[1]}</p></div>`).join("")+`</div><p class="mute" style="margin-top:8px">${p=="a"?"Data and commands flow over open protocols (below). The BMS can limit, reject or override anything CoolShift proposes.":"This is IIIT-Delhi's starting point per the deck. A BMS can be added later and connected over the same open protocols."}</p>`;$("pa").className="btn"+(p=="a"?"":" o");$("pb").className="btn"+(p=="b"?"":" o")}
+$("pa").onclick=()=>bms("a");$("pb").onclick=()=>bms("b");bms("a");
+const tick=()=>{const t=IST().d;$("clk").textContent=t.toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"})+" · "+t.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",second:"2-digit"})+" IST"};tick();setInterval(tick,1000);setInterval(render,60000);
+addEventListener("scroll",spy,{passive:true});render();sim();spy();
+</script></body></html>
