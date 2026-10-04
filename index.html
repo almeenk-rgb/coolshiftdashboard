@@ -161,4 +161,5 @@ function bms(p){$("bd").innerHTML=`<div class="grid" style="grid-template-column
 $("pa").onclick=()=>bms("a");$("pb").onclick=()=>bms("b");bms("a");
 const tick=()=>{const t=IST().d;$("clk").textContent=t.toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"})+" · "+t.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",second:"2-digit"})+" IST"};tick();setInterval(tick,1000);setInterval(render,60000);
 addEventListener("scroll",spy,{passive:true});render();sim();spy();
+</script><script src="retro-shift.js">
 </script></body></html>
